@@ -44,7 +44,27 @@ def incluirLocal(_username, _password, unidadeTecnica, nomeLocal):
         element.click()
         time.sleep(1)
         return True
+    except:
+        return False
 
-    except Exception as e:
-        print(e)
+def Login(_username, _password, unidadeTecnica, nomeLocal):
+    
+    try: 
+        #Instancia webdriver e chama link de gestor
+        driver = webdriver.Chrome()
+        driver.implicitly_wait(10)
+        driver.get("https://haishc2.famema.br")
+        time.sleep(2)
+        #Entra passando credenciais
+        element = driver.find_element(By.ID, 'username')
+        element.send_keys(_username)
+        element = driver.find_element(By.ID, 'password')
+        element.send_keys(_password)
+        time.sleep(2)
+        element = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/form/button')
+        if (len(element)> 0):
+            return True
+        else:
+            return False
+    except Exception as e: 
         return False

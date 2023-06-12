@@ -1,56 +1,44 @@
-from selenium import webdriver
+import ouvidoria_test
+import unittest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-import ouvidoria_test
 import time
-import unittest
+from selenium import webdriver
 
-class OuvidTeste(unittest.TestCase):
-
+class OuvidTest(unittest.TestCase):
     # Happy path
-    def CT0(self):
-        result = ouvidoria_test.incluirLocal('601160', '601160', 2, 'LocalCT1')
+    def test_CT0(self):
+        result = ouvidoria_test.incluirLocal('600028', '123', 2, 'LocalCT1')
         self.assertTrue(result)
-
     # Errar senha
-    def CT1(self):
-        result = ouvidoria_test.incluirLocal('601160', '601160', 2, 'LocalCT1')
+    def test_CT1(self):
+        result = ouvidoria_test.incluirLocal('600028', '12', 2, 'LocalCT1')
         self.assertFalse(result)
-
     # Errar login
-    def CT2(self):
-        result = ouvidoria_test.incluirLocal('601160', '601160', 2, 'LocalCT1')
+    def test_CT2(self):
+        result = ouvidoria_test.incluirLocal('6000228', '123', 2, 'LocalCT1')
         self.assertFalse(result)
-
     # Incluir local com nome vazio
-    def CT3(self):
-        result = ouvidoria_test.incluirLocal('601160', '601160', 2, '')
+    def test_CT3(self):
+        result = ouvidoria_test.incluirLocal('600028', '123', 2, ' ')
         self.assertFalse(result)
-
     # Incluir local sem nome
-    def CT4(self):
-        result = result = ouvidoria_test.incluirLocal('601160', '601160', 2, '')
+    def test_CT4(self):
+        result =  ouvidoria_test.incluirLocal('600028', '123', 2, '')
         self.assertFalse(result)
-
     # Incluir local sem unidade técnica
-    def CT5(self):
-        result = result = ouvidoria_test.incluirLocal('601160', '601160', 1, 'LocalCT4')
+    def test_CT5(self):
+        result =  ouvidoria_test.incluirLocal('600028', '123', 1, 'LocalCT4')
         self.assertFalse(result)
-
     # Incluir local com unidade técnica fora do dropList
-    def CT6(self):
-        result = result = ouvidoria_test.incluirLocal('601160', '601160', 7, 'LocalCT4')
+    def test_CT6(self):
+        result =  ouvidoria_test.incluirLocal('600028', '123', 7, 'LocalCT4')
         self.assertFalse(result)
-
-    # Incluir local com mais de 20 caracteres
-    def CT7(self):
-        result = result = ouvidoria_test.incluirLocal('601160', '601160', 3, 'LocalCT7LocalCT7LocalCT7LocalCT7LocalCT7LocalCT7LocalCT7LocalCT7')
+    # Incluir local com caracteres especiais e acima de 20 caracteres
+    def test_CT8(self):
+        result = ouvidoria_test.incluirLocal('600028', '123', 3, 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåçèéêëìíîïðñòóôõö÷øùúûüýþÿ')
         self.assertTrue(result)
-
-    # Incluir local com caracteres especiais
-    def CT8(self):
-        result = result = ouvidoria_test.incluirLocal('601160', '601160', 3, 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ')
-        self.assertTrue(result)
-
-    if __name__ == '__main__':
-        unittest.main()
+        
+        
+if __name__ == '__main__':
+    unittest.main()
